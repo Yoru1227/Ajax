@@ -13,21 +13,25 @@ namespace AjaxBasic.Controllers
         [HttpGet]
         public string Greet(string Name)
         {
-            return $"Hello, {Name}!";
+            Thread.Sleep(3000);
+            return $"{Name} 總統好!";
         }
         [HttpPost, ActionName("Greet")]
         public string PostGreet(string Name)
         {
-            return $"Hello, {Name}!";
+            Thread.Sleep(3000);
+            return $"{Name} 總統好!";
         }
         [HttpPost]
-        public string FetchPostGreet([FromBody]Parameter p)
+        public string FetchGreet([FromBody]Parameter p)
         {
-            return $"Hello, {p.Name}!";
+            Thread.Sleep(3000);
+            return $"{p.Name} 總統好!";
         }
         [HttpPost]
         public string CheckName(string FirstName)
         {
+            Thread.Sleep(3000);
             bool Exists = _context.Employees.Any(e => e.FirstName == FirstName);
             return Exists ? "true" : "false" ;
         }

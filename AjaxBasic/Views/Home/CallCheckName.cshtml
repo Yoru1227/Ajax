@@ -1,1 +1,40 @@
-﻿CallCheckName
+﻿<div class="container">
+    
+    <div class="form-group">
+        <label class="form-label">FirstName:</label>
+        <input id="firstName" class="form-control" type="text" placeholder="請輸入FirstName" onkeyup="keyup()" />
+        <div id="result"></div>
+    </div>
+    <div class="form-group">
+        <img id="chip" src="~/Images/chip.gif" alt="" style="display:none;"/>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function keyup() {
+            //alert("keyup");
+            var baseAddress = "https://localhost:7016";
+            var xmlHttp = new XMLHttpRequest();
+            var firstName = $("#firstName").val();
+            var p = `FirstName=${firstName}`;
+            xmlHttp.open("POST", `${baseAddress}/Ajax/CheckName`, true);
+            document.getElementById("chip").style.display = "inline";
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    if (xmlHttp.status == 200) {
+                        document.getElementById("chip").style.display = "none";
+                        if (decodeURI(xmlHttp.responseText == "true")) {
+                            document.getElementById("result").textContent = "查有此員工";
+                        }
+                        else {
+                            document.getElementById("result").textContent = "查無此員工";
+                        }
+                    }
+                }
+            }
+            xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlHttp.send(p);
+        }
+    </script>
+}

@@ -1,1 +1,63 @@
-﻿FetchCallGreet
+﻿<button class="btn btn-success" onClick="fetchGetGreetAsync()">Fetch Call Greet(非同步Get)</button>
+<button class="btn btn-success" onClick="fetchPostGreetAsync()">Fetch Call Greet(非同步Post)</button>
+
+<div id="chips"></div>
+<div id="result">
+
+</div>
+
+@section Scripts
+{
+    <script>
+        for (let i = 0; i < 100; i++) {
+            $("#chips").append(`<img class="chip" src="../Images/chip.gif" alt="" style="display:none;" height="80px" width="80px" />`);
+        }
+        var baseAddress = "https://localhost:7016";
+        function fetchGetGreetAsync() {
+            //alert("fetchGetGreetAsync");
+            var p = encodeURI("Name=謝新達");
+            $(".chip").show();
+            fetch(`${baseAddress}/Ajax/Greet?${p}`, {
+                method:"GET"
+            })
+            .then(function (result) {
+                $(".chip").hide();
+                if (result.ok) {
+                    return result.text();
+                }
+            })
+            .then(function (data) {
+                $("#result").text(data);
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+        }
+        function fetchPostGreetAsync() {
+            //alert("fetchPostGreetAsync");
+            var data = {
+                Name : "謝新達"
+            }
+            $(".chip").show();
+            fetch(`${baseAddress}/Ajax/FetchGreet`, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(function (result) {
+                $(".chip").hide();
+                if (result.ok) {
+                    return result.text();
+                }
+            })
+            .then(function (data) {
+                $("#result").text(data);
+            })
+            .catch(function (error) {
+                alert(error);
+            });
+        }
+    </script>
+}

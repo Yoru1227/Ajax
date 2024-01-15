@@ -1,1 +1,61 @@
-﻿CallGreet
+﻿<button class="btn btn-success" onClick="getGreetSync()">Call Greet(同步)</button>
+<button class="btn btn-success" onClick="getGreetAsync()">Call Greet(非同步Get)</button>
+<button class="btn btn-success" onClick="postGreetAsync()">Call Greet(非同步Post)</button>
+
+<img id="chip" src="~/Images/chip.gif" alt="" style="display:none;" height="80px" width="80px"/>
+<div id="result">
+
+</div>
+
+@section Scripts
+{
+    <script>
+        var baseAddress="https://localhost:7016";
+        function getGreetSync(){
+            //alert("getGreetSync");
+            var xmlHttp = new XMLHttpRequest();
+            var p = encodeURI("Name=謝新達");
+            xmlHttp.open("GET", `${baseAddress}/Ajax/Greet?${p}`, false);
+            //xmlHttp.timeout = 5000;
+            document.getElementById("chip").style.display = "inline";
+            xmlHttp.send();
+            document.getElementById("chip").style.display = "none";
+            document.getElementById("result").textContent = decodeURI(xmlHttp.response);
+        }
+
+        function getGreetAsync() {
+            //alert("getGreetAsync");
+            var xmlHttp = new XMLHttpRequest();
+            var p = encodeURI("Name=謝新達");
+            xmlHttp.open("GET", `${baseAddress}/Ajax/Greet?${p}`, true);
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    if (xmlHttp.status == 200) {
+                        document.getElementById("chip").style.display = "none";
+                        document.getElementById("result").textContent = decodeURI(xmlHttp.response);
+                    }
+                }
+            }
+            document.getElementById("chip").style.display = "inline";
+            xmlHttp.send();
+        }
+
+        function postGreetAsync() {
+            //alert("postGreetAsync");
+            var xmlHttp = new XMLHttpRequest();
+            //var p = encodeURI("Name=謝新達");
+            xmlHttp.open("POST", `${baseAddress}/Ajax/Greet`, true);
+            document.getElementById("chip").style.display = "inline";
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    if (xmlHttp.status == 200) {
+                        document.getElementById("chip").style.display = "none";
+                        document.getElementById("result").textContent = decodeURI(xmlHttp.response);
+                    }
+                }
+            }
+            xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xmlHttp.send("Name=謝新達");
+        }
+    </script>
+}

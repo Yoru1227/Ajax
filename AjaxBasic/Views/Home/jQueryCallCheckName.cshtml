@@ -1,1 +1,38 @@
-﻿jQueryCallCheckName
+﻿<div class="container">
+
+    <div class="form-group">
+        <label class="form-label">FirstName:</label>
+        <input id="firstName" class="form-control" type="text" placeholder="請輸入FirstName" onkeyup="keyup()" />
+        <div id="result"></div>
+    </div>
+    <div class="form-group">
+        <img id="chip" src="~/Images/chip.gif" alt="" style="display:none;" />
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        for (let i = 0; i < 100; i++) {
+            $("#chips").append(`<img class="chip" src="../Images/chip.gif" alt="" style="display:none;" height="80px" width="80px" />`);
+        }
+        var baseAddress = "https://localhost:7016";
+        function keyup() { 
+            $("#chip").show();
+            $.ajax({
+                type: "POST",
+                data: {
+                    FirstName: $("#firstName").val()
+                },
+                url: `${baseAddress}/Ajax/CheckName`
+            })
+            .done(function(data){
+                $("#result").text(data);
+                $("#chip").hide();
+            })
+            .fail(function(error){
+                alert(error.responseText);
+            });
+        }
+    </script>
+}

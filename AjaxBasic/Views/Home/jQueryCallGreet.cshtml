@@ -1,1 +1,70 @@
-﻿jQueryCallGreet
+﻿<button class="btn btn-success" onClick="jQueryGetGreetSync()">Call Greet(同步)</button>
+<button class="btn btn-success" onClick="jQueryGetGreetAsync()">Call Greet(非同步Get)</button>
+<button class="btn btn-success" onClick="jQueryPostGreetAsync()">Call Greet(非同步Post)</button>
+
+<div id="chips"></div>
+<div id="result">
+
+</div>
+
+@section Scripts
+{
+    <script>
+        for (let i = 0; i < 100; i++) {
+        $("#chips").append(`<img class="chip" src="../Images/chip.gif" alt="" style="display:none;" height="80px" width="80px" />`);
+        }
+        var baseAddress = "https://localhost:7016";
+        function jQueryGetGreetSync() {
+            //alert("jQueryGetGreetSync");
+            var p = encodeURI("Name=謝新達");
+            $(".chip").show();
+            $.ajax({
+                type:"GET",
+                url:`${baseAddress}/Ajax/Greet?${p}`,
+                async:false,
+                timeout:5000
+            })
+            .done(function (data) {
+                $("#result").text(data);
+                $(".chip").hide();
+            })
+            .fail(function (error) {
+                alert(error.responseText);
+            });
+        }
+        function jQueryGetGreetAsync() {
+            //alert("jQueryGetGreetASync");
+            var p = encodeURI("Name=謝新達");
+            $(".chip").show();
+            $.ajax({
+                type:"GET",
+                url:`${baseAddress}/Ajax/Greet?${p}`
+            })
+            .done(function (data) {
+                $("#result").text(data);
+                $(".chip").hide();
+            })
+            .fail(function (error) {
+                alert(error.responseText);
+            });
+        }
+        function jQueryPostGreetAsync() {
+            //alert("jQueryPostGreetASync");
+            $(".chip").show();
+            $.ajax({
+                type: "POST",
+                data:{
+                    Name:"謝新達"
+                },
+                url: `${baseAddress}/Ajax/Greet`
+            })
+                .done(function (data) {
+                    $("#result").text(data);
+                    $(".chip").hide();
+                })
+                .fail(function (error) {
+                    alert(error.responseText);
+                });
+        }
+    </script>
+}
