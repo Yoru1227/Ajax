@@ -24,7 +24,7 @@
                 if (xmlHttp.readyState == 4) {
                     if (xmlHttp.status == 200) {
                         document.getElementById("chip").style.display = "none";
-                        if (decodeURI(xmlHttp.responseText == "true")) {
+                        if (decodeURI(xmlHttp.responseText) == "true") {
                             document.getElementById("result").textContent = "查有此員工";
                         }
                         else {

@@ -27,8 +27,13 @@
                 url: `${baseAddress}/Ajax/CheckName`
             })
             .done(function(data){
-                $("#result").text(data);
                 $("#chip").hide();
+                if (data == "true") {
+                    $("#result").text("查有此員工");
+                }
+                else {
+                    $("#result").text("查無此員工");
+                }
             })
             .fail(function(error){
                 alert(error.responseText);
