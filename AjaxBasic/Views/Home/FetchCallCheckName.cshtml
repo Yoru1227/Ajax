@@ -1,1 +1,49 @@
-﻿FetchCallCheckName
+﻿<div class="container">
+
+    <div class="form-group">
+        <label class="form-label">FirstName:</label>
+        <input id="firstName" class="form-control" type="text" placeholder="請輸入FirstName" onkeyup="keyup()" />
+        <div id="result"></div>
+    </div>
+    <div class="form-group">
+        <img id="chip" src="~/Images/chip.gif" alt="" style="display:none;" />
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        var baseAddress = "https://localhost:7016";
+        function keyup(){
+            //alert("keyup");
+            $("#chip").show();
+            var data = {
+                Name: $("#firstName").val()
+            };
+            fetch(`${baseAddress}/Ajax/FetchCheckName`, {
+                method:"POST",
+                body:JSON.stringify(data),
+                headers: {
+                    "Content-Type":"application/json"
+                }
+            })
+            .then(function (result) {
+                    $("#chip").hide();
+                if (result.ok) {
+                    return result.text();
+                }
+            })
+            .then(function (data) {
+                if (data == "true") {
+                    $("#result").text("查有此員工");
+                }
+                else {
+                    $("#result").text("查無此員工");
+                }
+            })
+            .catch(function (error) {
+                $("#chip").hide();
+            });
+        }
+    </script>
+}

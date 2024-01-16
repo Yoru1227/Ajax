@@ -1,0 +1,132 @@
+﻿
+<div>
+<button class="btn btn-success" onClick="getEmployees()">查詢</button>
+</div>
+<div>
+<input id="employeeId" type="text" value="" placeholder="請輸入ID"/>
+<button class="btn btn-success" onClick="getEmployeesById()">以ID查詢</button>
+</div>
+<div>
+    <input id="employeeFirstName" type="text" value="" placeholder="請輸入FirstName" />
+    <input id="employeeLastName" type="text" value="" placeholder="請輸入LastName" />
+    <input id="employeeTitle" type="text" value="" placeholder="請輸入Title" />
+    <button class="btn btn-success" onClick="createEmployee()">新增員工</button>
+</div>
+<div>
+    <input id="modId" type="text" value="" placeholder="請輸入ID" />
+    <input id="modFirstName" type="text" value="" placeholder="請輸入FirstName" />
+    <input id="modLastName" type="text" value="" placeholder="請輸入LastName" />
+    <input id="modTitle" type="text" value="" placeholder="請輸入Title" />
+    <button class="btn btn-success" onClick="createEmployee()">修改員工</button>
+</div>
+<div>
+    <input id="deleteEmployeeId" type="text" value="" placeholder="請輸入ID" />
+    <button class="btn btn-success" onClick="deleteEmployeesById()">刪除員工</button>
+</div>
+@section Scripts{
+    <script>
+        var baseAddress = "https://localhost:7250";
+        function getEmployees() {
+            fetch(`${baseAddress}/api/Employees`, {
+                method: "GET"
+            })
+                .then(function (result) {
+                    if(result.ok) {
+                        return result.json();
+                    }
+                })
+                .then(function (data) {
+                    alert(JSON.stringify(data))
+                })
+                .catch(function (error) {
+                    alert("fail to fetch");
+                });
+        }
+        function getEmployeesById() {
+            var employeeId = $("#employeeId").val();
+            fetch(`${baseAddress}/api/Employees/${employeeId}`, {
+                method: "GET"
+            })
+                .then(function (result) {
+                    if (result.ok) {
+                        return result.json();
+                    }
+                })
+                .then(function (data) {
+                    alert(JSON.stringify(data))
+                })
+                .catch(function (error) {
+                    alert("fail to fetch");
+                });
+        }
+        function createEmployee() {
+            var employee = {
+                employeeId:0,
+                firstName: $("#employeeFirstName").val(),
+                LastName: $("#employeeLastName").val(),
+                title: $("#employeeTitle").val()
+            };
+            fetch(`${baseAddress}/api/Employees`, {
+                method: "POST",
+                body: JSON.stringify(employee),
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            .then(function (result) {
+                if (result.ok) {
+                    return result.text();
+                }
+            })
+            .then(function (data) {
+                alert(JSON.stringify(data))
+            })
+            .catch(function (error) {
+                alert("fail to fetch");
+            });
+        }
+        function updateEmployee() {
+            var employee = {
+                employeeId: $("#modId").val(),
+                firstName: $("#modFirstName").val(),
+                LastName: $("#modLastName").val(),
+                title: $("#modTitle").val()
+            };
+            fetch(`${baseAddress}/api/Employees`, {
+                method: "PUT",
+                body: JSON.stringify(employee),
+                headers:{
+                "Content-Type": "application/json"
+                }
+            })
+            .then(function (result) {
+                if (result.ok) {
+                    return result.text();
+                }
+            })
+            .then(function (data) {
+                alert(JSON.stringify(data))
+            })
+            .catch(function (error) {
+                alert("fail to fetch");
+            });
+        }
+        function deleteEmployeesById() {
+            var employeeId = $("#deleteEmployeeId").val();
+            fetch(`${baseAddress}/api/Employees/${employeeId}`, {
+                method: "DELETE"
+            })
+            .then(function (result) {
+                if (result.ok) {
+                    return result.text();
+                }
+            })
+            .then(function (data) {
+                alert(JSON.stringify(data))
+            })
+            .catch(function (error) {
+                alert("fail to fetch");
+            });
+        }
+    </script>
+}

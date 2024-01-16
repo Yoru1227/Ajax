@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace AjaxBasic.Models;
+namespace EmployeeService.Partials;
 public partial class NorthwindContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -15,3 +15,4 @@ public partial class NorthwindContext : DbContext
         }
     }
 }
+

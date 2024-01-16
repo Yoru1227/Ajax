@@ -38,6 +38,7 @@ namespace AjaxBasic.Controllers
         [HttpPost]
         public string FetchCheckName([FromBody] Parameter p)
         {
+            Thread.Sleep(3000);
             bool Exists = _context.Employees.Any(e => e.FirstName == p.Name);
             return Exists ? "true" : "false";
         }
